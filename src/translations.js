@@ -12,7 +12,6 @@ export const translations = {
       switchLangAria: 'Switch language',
     },
     hero: {
-      badge: '100% Pure Rust · Windows 10 / 11',
       headlineTop: 'Pure Rust Speed.',
       headlineBottom: 'Liquid Glass Audio.',
       subtitle:
@@ -209,7 +208,6 @@ export const translations = {
       switchLangAria: 'Sprache wechseln',
     },
     hero: {
-      badge: '100% Pure Rust · Windows 10 / 11',
       headlineTop: 'Reine Rust-Power.',
       headlineBottom: 'Liquid-Glass-Audio.',
       subtitle:

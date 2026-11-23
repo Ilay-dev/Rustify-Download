@@ -364,24 +364,17 @@ export default function App() {
         <section className="hero">
           <div className="container">
             <Reveal delay={0}>
-              <div className="hero-badge">
-                <span className="hero-badge-dot" aria-hidden="true" />
-                <span>{t.hero.badge}</span>
-              </div>
-            </Reveal>
-
-            <Reveal delay={70}>
               <h1 className="hero-title">
                 {t.hero.headlineTop}
                 <span className="hero-title-muted">{t.hero.headlineBottom}</span>
               </h1>
             </Reveal>
 
-            <Reveal delay={130}>
+            <Reveal delay={80}>
               <p className="hero-subtitle">{t.hero.subtitle}</p>
             </Reveal>
 
-            <Reveal delay={190}>
+            <Reveal delay={140}>
               <div className="hero-actions">
                 <a href={release.downloadUrl} className="btn btn-primary btn-lg">
                   <DownloadIcon size={18} />
@@ -399,7 +392,7 @@ export default function App() {
               </div>
             </Reveal>
 
-            <Reveal delay={230}>
+            <Reveal delay={190}>
               <div className="hero-meta" aria-label="Release details">
                 <span className="hero-meta-strong">{release.version}</span>
                 <span className="hero-meta-sep" aria-hidden="true">·</span>
@@ -411,7 +404,7 @@ export default function App() {
               </div>
             </Reveal>
 
-            <Reveal delay={280}>
+            <Reveal delay={240}>
               <div className="hero-preview-stage" id="preview">
                 <div
                   className="hero-preview-card"

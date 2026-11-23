@@ -391,32 +391,8 @@ button {
 
 /* Hero Section */
 .hero {
-  padding: 124px 0 64px;
+  padding: 136px 0 64px;
   text-align: center;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.11);
-  color: #d4d7de;
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  margin-bottom: 24px;
-  backdrop-filter: blur(12px);
-}
-
-.hero-badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #f5f6f8;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
 .hero-title {
