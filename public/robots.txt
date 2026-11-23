@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ilay-dev.github.io/Rustify-Download/sitemap.xml
