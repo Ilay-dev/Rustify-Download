@@ -239,7 +239,7 @@ function FeatureIcon({ id }) {
 export default function App() {
   const [lang, setLang] = useState(detectBrowserLanguage);
   const [release, setRelease] = useState({
-    version: 'v1.2.0',
+    version: 'v1.3.0',
     size: '~14 MB',
     downloadUrl: FALLBACK_DOWNLOAD_URL,
   });
