@@ -1,7 +1,7 @@
 export const translations = {
   en: {
     meta: {
-      title: 'Rustify — Native Rust Music Player for Windows',
+      title: 'Rustify — Native Rust Music Player for Windows by Ilay Schönknecht',
     },
     nav: {
       features: 'Features',
@@ -191,13 +191,13 @@ export const translations = {
       license: 'MIT License',
       repoLink: 'Repository',
       releasesLink: 'Releases',
-      authorLink: 'Ilay-dev',
+      authorLink: 'Ilay Schönknecht (Ilay-dev)',
     },
   },
 
   de: {
     meta: {
-      title: 'Rustify — Nativer Rust-Musikplayer für Windows',
+      title: 'Rustify — Nativer Rust-Musikplayer für Windows von Ilay Schönknecht',
     },
     nav: {
       features: 'Features',
@@ -387,7 +387,7 @@ export const translations = {
       license: 'MIT-Lizenz',
       repoLink: 'Repository',
       releasesLink: 'Releases',
-      authorLink: 'Ilay-dev',
+      authorLink: 'Ilay Schönknecht (Ilay-dev)',
     },
   },
 };
