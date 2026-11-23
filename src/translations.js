@@ -137,6 +137,22 @@ export const translations = {
         },
       ],
     },
+    lyricsShowcase: {
+      eyebrow: 'SYNCHRONIZED LYRICS & VISUALIZER',
+      title: 'Live lyrics in the player and on the FFT stage.',
+      subtitle:
+        'Open the full karaoke lyrics view from the player bar or overlay the previous, current, and upcoming lines directly inside the AudioVisualizer (Top or Bottom).',
+      appCardTitle: 'In-App Karaoke Lyrics',
+      appCardTag: 'Click-to-Seek · LRCLIB',
+      appCardDesc:
+        'Automatically fetches and caches timed .lrc lyrics, auto-scrolls in sync, and jumps to any line with a single click.',
+      appAlt: 'Rustify In-App Synchronized Lyrics View',
+      vizCardTitle: 'AudioVisualizer 3-Line Overlay',
+      vizCardTag: 'Top / Bottom · Toggleable',
+      vizCardDesc:
+        'Centered live lyrics right inside the 60+ FPS FFT spectrum window — previous and next lines softly dimmed, active line crisp and bright.',
+      vizAlt: 'Rustify AudioVisualizer with 3-Line Synchronized Lyrics',
+    },
     specs: {
       eyebrow: 'CONTROLS & SPECS',
       title: 'Built for effortless desktop control.',
@@ -332,6 +348,22 @@ export const translations = {
             'Aktiviere AI DJ Automix, stelle den 5-Band-EQ ein, nutze Live-Lyrics oder öffne das FFT-AudioVisualizer-Fenster.',
         },
       ],
+    },
+    lyricsShowcase: {
+      eyebrow: 'SYNCHRONISIERTE LYRICS & VISUALIZER',
+      title: 'Live-Songtexte im Player und direkt im AudioVisualizer.',
+      subtitle:
+        'Öffne die volle Karaoke-Ansicht über die Player-Bar oder blende vorherige, aktuelle und nächste Zeile zentriert im AudioVisualizer ein (Oben oder Unten).',
+      appCardTitle: 'Karaoke-Lyrics in der App',
+      appCardTag: 'Click-to-Seek · LRCLIB',
+      appCardDesc:
+        'Lädt und cached automatisch getimte .lrc-Songtexte, scrollt synchron mit und springt per Klick auf jede Zeile exakt zur Stelle.',
+      appAlt: 'Rustify Synchronisierte Lyrics Ansicht in der App',
+      vizCardTitle: 'AudioVisualizer 3-Zeilen-Overlay',
+      vizCardTag: 'Oben / Unten · Umschaltbar',
+      vizCardDesc:
+        'Zentrierte Live-Lyrics direkt im 60+ FPS FFT-Fenster — vorherige und nächste Zeile dezent grau, aktuelle Zeile groß und gestochen scharf.',
+      vizAlt: 'Rustify AudioVisualizer mit 3-Zeilen-Lyrics-Overlay',
     },
     specs: {
       eyebrow: 'STEUERUNG & DATEN',

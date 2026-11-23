@@ -587,6 +587,69 @@ export default function App() {
           </div>
         </section>
 
+        {/* Synchronized Lyrics & Visualizer Showcase */}
+        <section className="section" id="lyrics">
+          <div className="container">
+            <Reveal>
+              <div className="section-header">
+                <span className="eyebrow">{t.lyricsShowcase.eyebrow}</span>
+                <h2 className="section-title">{t.lyricsShowcase.title}</h2>
+                <p className="section-subtitle">{t.lyricsShowcase.subtitle}</p>
+              </div>
+            </Reveal>
+
+            <div className="lyrics-showcase-grid">
+              <Reveal delay={50}>
+                <article className="glass-card glass-card--interactive lyrics-media-card">
+                  <div className="showcase-media-header">
+                    <div className="chrome-dots" aria-hidden="true">
+                      <span className="chrome-dot" />
+                      <span className="chrome-dot" />
+                      <span className="chrome-dot" />
+                    </div>
+                    <span>{t.lyricsShowcase.appCardTag}</span>
+                  </div>
+                  <div className="showcase-img-wrap">
+                    <img
+                      src={`${BASE}preview_lyrics.png`}
+                      alt={t.lyricsShowcase.appAlt}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="lyrics-media-copy">
+                    <h3>{t.lyricsShowcase.appCardTitle}</h3>
+                    <p>{t.lyricsShowcase.appCardDesc}</p>
+                  </div>
+                </article>
+              </Reveal>
+
+              <Reveal delay={110}>
+                <article className="glass-card glass-card--interactive lyrics-media-card">
+                  <div className="showcase-media-header">
+                    <div className="chrome-dots" aria-hidden="true">
+                      <span className="chrome-dot" />
+                      <span className="chrome-dot" />
+                      <span className="chrome-dot" />
+                    </div>
+                    <span>{t.lyricsShowcase.vizCardTag}</span>
+                  </div>
+                  <div className="showcase-img-wrap">
+                    <img
+                      src={`${BASE}preview_visualizer_lyrics.png`}
+                      alt={t.lyricsShowcase.vizAlt}
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="lyrics-media-copy">
+                    <h3>{t.lyricsShowcase.vizCardTitle}</h3>
+                    <p>{t.lyricsShowcase.vizCardDesc}</p>
+                  </div>
+                </article>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         {/* Controls, Tech Specs & FAQ */}
         <section className="section" id="specs">
           <div className="container">
