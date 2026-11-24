@@ -1310,7 +1310,7 @@ export default function App() {
               <div className="ext-card">
                 <div className="ext-card-top">
                   <div className="ext-card-name">
-                    <LinuxIcon size={16} />
+                    <TerminalIcon size={16} />
                     <span>Linux Mint (21 / 22)</span>
                   </div>
                   <span className="ext-card-meta">{extRelease.assets.mint.size}</span>
@@ -1341,7 +1341,7 @@ export default function App() {
               <div className="ext-card">
                 <div className="ext-card-top">
                   <div className="ext-card-name">
-                    <LinuxIcon size={16} />
+                    <TerminalIcon size={16} />
                     <span>Arch Linux</span>
                   </div>
                   <span className="ext-card-meta">{extRelease.assets.arch.size}</span>
