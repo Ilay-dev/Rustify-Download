@@ -414,11 +414,60 @@ button {
 }
 
 .hero-subtitle {
-  margin: 0 auto 32px;
+  margin: 0 auto 26px;
   max-width: 650px;
   font-size: clamp(0.98rem, 2vw, 1.125rem);
   line-height: 1.65;
   color: var(--text-secondary);
+}
+
+/* Segmented OS Platform Toggle */
+.platform-switch-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.platform-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  gap: 4px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.platform-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 7px 16px;
+  border-radius: 8px;
+  transition:
+    background-color 0.22s var(--ease-out-expo),
+    color 0.22s var(--ease-out-expo),
+    box-shadow 0.22s var(--ease-out-expo);
+}
+
+.platform-btn:hover {
+  color: var(--text-primary);
+}
+
+.platform-btn.is-active {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .hero-actions {
@@ -427,7 +476,30 @@ button {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+}
+
+.hero-sublinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  margin-bottom: 14px;
+}
+
+.hero-sublink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #cfd3dc;
+  transition: color 0.2s ease;
+}
+
+.hero-sublink:hover {
+  color: #ffffff;
 }
 
 .hero-meta {
@@ -582,6 +654,11 @@ button {
 /* Section Headers */
 .section {
   padding: 76px 0;
+  scroll-margin-top: 84px;
+}
+
+#preview {
+  scroll-margin-top: 96px;
 }
 
 .section-header {
@@ -818,6 +895,261 @@ button {
   line-height: 1.6;
 }
 
+/* Interactive Linux Installation Guide */
+.linux-guide-card {
+  padding: 0;
+}
+
+.distro-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.distro-tab {
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 10px 12px;
+  border-radius: 10px;
+  text-align: center;
+  transition:
+    background-color 0.22s var(--ease-out-expo),
+    color 0.22s var(--ease-out-expo),
+    border-color 0.22s var(--ease-out-expo),
+    box-shadow 0.22s var(--ease-out-expo);
+}
+
+.distro-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.09);
+}
+
+.distro-tab.is-active {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border-color: transparent;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.distro-tab-name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.distro-panel {
+  padding: 24px;
+}
+
+.distro-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 22px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.distro-header-info {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.distro-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.distro-title {
+  margin: 0;
+  font-size: 1.28rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+.distro-format-tag {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #d6d9e0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  padding: 3px 9px;
+  border-radius: 6px;
+}
+
+.distro-subtitle {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.distro-file-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.distro-file-label {
+  color: var(--text-muted);
+}
+
+.distro-file-name {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.78rem;
+  color: #cfd3dc;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 2px 7px;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.distro-file-size {
+  color: #c2c6cf;
+  font-weight: 500;
+}
+
+.distro-download-btn {
+  flex-shrink: 0;
+}
+
+.distro-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.distro-step {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.distro-step-body {
+  min-width: 0;
+}
+
+.distro-step-title {
+  margin: 0 0 4px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text-primary);
+}
+
+.distro-step-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.58;
+  color: var(--text-secondary);
+}
+
+/* Terminal Command Block with Copy Button */
+.cmd-block {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 10px 9px 14px;
+  border-radius: 10px;
+  background: rgba(5, 5, 7, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  max-width: 100%;
+}
+
+.cmd-scroll {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  overflow-x: auto;
+  padding: 2px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+.cmd-scroll::-webkit-scrollbar {
+  height: 5px;
+}
+
+.cmd-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
+.cmd-prompt {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.cmd-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.83rem;
+  color: #eef0f4;
+  white-space: nowrap;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 6px 11px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.055);
+  color: #d6d9e0;
+  font-size: 0.77rem;
+  font-weight: 600;
+  transition:
+    background-color 0.2s var(--ease-out-expo),
+    border-color 0.2s var(--ease-out-expo),
+    color 0.2s var(--ease-out-expo);
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+}
+
+.copy-btn.is-copied {
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+
 /* Shortcuts, Tech Specs & FAQ */
 .specs-grid {
   display: grid;
@@ -1021,7 +1353,15 @@ button {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
+}
+
+.cta-sublinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
 }
 
 .cta-meta-link {
@@ -1123,6 +1463,13 @@ button {
   color: var(--text-secondary);
 }
 
+/* Distro Tabs 4-col Breakpoint */
+@media (min-width: 640px) {
+  .distro-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 /* Tablet Breakpoint */
 @media (min-width: 720px) {
   .container {
@@ -1140,6 +1487,15 @@ button {
   .specs-grid,
   .lyrics-showcase-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .distro-panel {
+    padding: 30px;
+  }
+
+  .distro-header {
+    flex-direction: row;
+    align-items: center;
   }
 
   .footer-inner {
@@ -1191,6 +1547,25 @@ button {
   }
 }
 
+/* Small Phone Tweaks */
+@media (max-width: 480px) {
+  .distro-step {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .distro-step-num {
+    width: 30px;
+    height: 30px;
+    font-size: 0.74rem;
+    border-radius: 8px;
+  }
+
+  .distro-download-btn {
+    width: 100%;
+  }
+}
+
 /* Compact Mobile Tweaks (360px safety) */
 @media (max-width: 420px) {
   .navbar {
@@ -1221,6 +1596,33 @@ button {
   .step-card {
     padding: 20px;
   }
+
+  .distro-tabs {
+    padding: 10px;
+  }
+
+  .distro-tab {
+    padding: 9px 8px;
+    font-size: 0.78rem;
+  }
+
+  .distro-panel {
+    padding: 18px;
+  }
+
+  .cmd-block {
+    padding: 8px 8px 8px 11px;
+    gap: 8px;
+  }
+
+  .cmd-code {
+    font-size: 0.77rem;
+  }
+
+  .copy-btn {
+    padding: 6px 9px;
+    font-size: 0.74rem;
+  }
 }
 
 /* Reduced Motion */
@@ -1238,6 +1640,9 @@ button {
   .hero-preview-card,
   .glass-card,
   .btn,
+  .platform-btn,
+  .distro-tab,
+  .copy-btn,
   .faq-body,
   .faq-chevron {
     transition: none;

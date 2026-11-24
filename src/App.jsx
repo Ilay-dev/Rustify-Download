@@ -4,9 +4,34 @@ import { translations } from './translations';
 const REPO_URL = 'https://github.com/Ilay-dev/Rustify';
 const AUTHOR_URL = 'https://github.com/Ilay-dev';
 const RELEASES_URL = 'https://github.com/Ilay-dev/Rustify/releases';
-const FALLBACK_DOWNLOAD_URL =
-  'https://github.com/Ilay-dev/Rustify/releases/latest/download/Rustify-Setup.exe';
 const LATEST_RELEASE_API = 'https://api.github.com/repos/Ilay-dev/Rustify/releases/latest';
+
+const DEFAULT_VERSION = 'v1.4.0';
+
+const FALLBACK_ASSETS = {
+  windows: {
+    name: 'Rustify-Setup.exe',
+    url: 'https://github.com/Ilay-dev/Rustify/releases/latest/download/Rustify-Setup.exe',
+    size: '~14 MB',
+  },
+  deb: {
+    name: 'rustify_1.4.0_amd64.deb',
+    url: 'https://github.com/Ilay-dev/Rustify/releases/latest/download/rustify_1.4.0_amd64.deb',
+    size: '~10 MB',
+  },
+  arch: {
+    name: 'rustify-1.4.0-1-x86_64.pkg.tar.zst',
+    url: 'https://github.com/Ilay-dev/Rustify/releases/latest/download/rustify-1.4.0-1-x86_64.pkg.tar.zst',
+    size: '~10 MB',
+  },
+  tarball: {
+    name: 'rustify-1.4.0-linux-x86_64.tar.gz',
+    url: 'https://github.com/Ilay-dev/Rustify/releases/latest/download/rustify-1.4.0-linux-x86_64.tar.gz',
+    size: '~10 MB',
+  },
+};
+
+const DISTRO_KEYS = ['arch', 'ubuntu', 'mint', 'tarball'];
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -20,10 +45,29 @@ function detectBrowserLanguage() {
   return primary.startsWith('de') ? 'de' : 'en';
 }
 
-function formatBytesToMB(bytes) {
-  if (!bytes || Number.isNaN(bytes) || bytes <= 0) return '~14 MB';
+function detectInitialPlatform() {
+  if (typeof navigator === 'undefined') return 'windows';
+  const ua = String(navigator.userAgent || '').toLowerCase();
+  const plat = String(navigator.platform || '').toLowerCase();
+  if ((ua.includes('linux') || plat.includes('linux')) && !ua.includes('android')) {
+    return 'linux';
+  }
+  return 'windows';
+}
+
+function formatBytesToMB(bytes, fallback = '~14 MB') {
+  if (!bytes || Number.isNaN(bytes) || bytes <= 0) return fallback;
   const mb = bytes / (1024 * 1024);
   return `${mb.toFixed(1)} MB`;
+}
+
+function resolveAsset(asset, fallback) {
+  if (!asset || !asset.browser_download_url) return fallback;
+  return {
+    name: typeof asset.name === 'string' && asset.name.trim() ? asset.name.trim() : fallback.name,
+    url: asset.browser_download_url,
+    size: formatBytesToMB(asset.size, fallback.size),
+  };
 }
 
 /* Lightweight hardware-accelerated scroll reveal */
@@ -125,6 +169,40 @@ function GitHubIcon({ size = 17 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.08 11.08 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.69 5.4-5.26 5.68.41.36.78 1.06.78 2.14 0 1.55-.01 2.8-.01 3.18 0 .31.21.68.8.56A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+    </svg>
+  );
+}
+
+function WindowsIcon({ size = 14 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M3 5.55 10.65 4.5v7.05H3V5.55Zm8.65-1.19L21 3v8.55h-9.35V4.36ZM3 12.55h7.65v7.05L3 18.55v-6Zm8.65 0H21V21l-9.35-1.36v-7.09Z" />
+    </svg>
+  );
+}
+
+function TerminalIcon({ size = 14 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="4 17 10 11 4 5" />
+      <line x1="12" y1="19" x2="20" y2="19" />
+    </svg>
+  );
+}
+
+function CopyIcon({ size = 14 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  );
+}
+
+function CheckIcon({ size = 14 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="20 6 9 17 4 12" />
     </svg>
   );
 }
@@ -238,10 +316,14 @@ function FeatureIcon({ id }) {
 
 export default function App() {
   const [lang, setLang] = useState(detectBrowserLanguage);
+  const [platform, setPlatform] = useState(detectInitialPlatform);
+  const [activeDistro, setActiveDistro] = useState('arch');
+  const [copiedId, setCopiedId] = useState('');
+  const copyTimerRef = useRef(null);
+
   const [release, setRelease] = useState({
-    version: 'v1.3.0',
-    size: '~14 MB',
-    downloadUrl: FALLBACK_DOWNLOAD_URL,
+    version: DEFAULT_VERSION,
+    assets: FALLBACK_ASSETS,
   });
   const [openFaq, setOpenFaq] = useState(0);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
@@ -254,6 +336,12 @@ export default function App() {
   }, [lang, t.meta.title]);
 
   useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
     const controller = new AbortController();
 
     async function fetchLatestRelease() {
@@ -264,28 +352,70 @@ export default function App() {
         });
         if (!res.ok) return;
         const data = await res.json();
-        const tag = typeof data.tag_name === 'string' && data.tag_name.trim() ? data.tag_name.trim() : 'v1.1.0';
+        const tag =
+          typeof data.tag_name === 'string' && data.tag_name.trim()
+            ? data.tag_name.trim()
+            : DEFAULT_VERSION;
         const assets = Array.isArray(data.assets) ? data.assets : [];
-        const installer =
-          assets.find((a) => a && typeof a.name === 'string' && a.name.toLowerCase() === 'rustify-setup.exe') ||
+
+        const winAsset =
+          assets.find(
+            (a) => a && typeof a.name === 'string' && a.name.toLowerCase() === 'rustify-setup.exe'
+          ) ||
           assets.find((a) => a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.exe'));
+
+        const debAsset = assets.find(
+          (a) => a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.deb')
+        );
+
+        const archAsset = assets.find(
+          (a) => a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.pkg.tar.zst')
+        );
+
+        const tarballAsset = assets.find(
+          (a) => a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.tar.gz')
+        );
 
         setRelease({
           version: tag,
-          size: installer && installer.size ? formatBytesToMB(installer.size) : '~14 MB',
-          downloadUrl:
-            installer && installer.browser_download_url
-              ? installer.browser_download_url
-              : FALLBACK_DOWNLOAD_URL,
+          assets: {
+            windows: resolveAsset(winAsset, FALLBACK_ASSETS.windows),
+            deb: resolveAsset(debAsset, FALLBACK_ASSETS.deb),
+            arch: resolveAsset(archAsset, FALLBACK_ASSETS.arch),
+            tarball: resolveAsset(tarballAsset, FALLBACK_ASSETS.tarball),
+          },
         });
       } catch {
-        // Offline or GitHub API rate limit — keep graceful fallback
+        // Offline or GitHub API rate limit — keep graceful v1.4.0 fallback
       }
     }
 
     fetchLatestRelease();
     return () => controller.abort();
   }, []);
+
+  const handleCopyCommand = async (id, text) => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+      }
+      setCopiedId(id);
+      if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = window.setTimeout(() => setCopiedId(''), 2000);
+    } catch {
+      // Ignore clipboard failures in restricted contexts
+    }
+  };
 
   const handleHeroPointerMove = (e) => {
     if (
@@ -305,6 +435,27 @@ export default function App() {
   };
 
   const resetHeroTilt = () => setTilt({ rx: 0, ry: 0 });
+
+  const { windows: winAsset, deb: debAsset, arch: archAsset, tarball: tarballAsset } = release.assets;
+
+  const distroAssetMap = {
+    arch: archAsset,
+    ubuntu: debAsset,
+    mint: debAsset,
+    tarball: tarballAsset,
+  };
+
+  const commandMap = {
+    archInstall: `sudo pacman -U ${archAsset.name}`,
+    archPipewire: 'sudo pacman -S --needed pipewire-pulse',
+    debInstall: `sudo apt update && sudo apt install ./${debAsset.name}`,
+    tarballInstall: `tar -xzf ${tarballAsset.name} && cd rustify-linux && ./install.sh`,
+    launch: 'rustify',
+  };
+
+  const currentDistro = t.linuxInstall.distros[activeDistro] || t.linuxInstall.distros.arch;
+  const currentDistroAsset = distroAssetMap[activeDistro] || archAsset;
+  const navDownloadHref = platform === 'linux' ? '#linux-install' : winAsset.url;
 
   return (
     <div className="page-shell">
@@ -328,6 +479,7 @@ export default function App() {
             <a href="#features" className="nav-link">{t.nav.features}</a>
             <a href="#preview" className="nav-link">{t.nav.preview}</a>
             <a href="#install" className="nav-link">{t.nav.install}</a>
+            <a href="#linux-install" className="nav-link">{t.nav.linux}</a>
             <a href="#specs" className="nav-link">{t.nav.specs}</a>
           </div>
 
@@ -351,7 +503,7 @@ export default function App() {
               </button>
             </div>
 
-            <a href={release.downloadUrl} className="btn btn-primary btn-sm">
+            <a href={navDownloadHref} className="btn btn-primary btn-sm">
               <DownloadIcon size={14} />
               <span>{t.nav.download}</span>
             </a>
@@ -374,34 +526,105 @@ export default function App() {
               <p className="hero-subtitle">{t.hero.subtitle}</p>
             </Reveal>
 
-            <Reveal delay={140}>
-              <div className="hero-actions">
-                <a href={release.downloadUrl} className="btn btn-primary btn-lg">
-                  <DownloadIcon size={18} />
-                  <span>{t.hero.downloadCta}</span>
-                </a>
-                <a
-                  href={REPO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-secondary btn-lg"
-                >
-                  <GitHubIcon size={18} />
-                  <span>{t.hero.githubCta}</span>
-                </a>
+            <Reveal delay={120}>
+              <div className="platform-switch-wrap">
+                <div className="platform-toggle" role="group" aria-label={t.hero.platformSwitchAria}>
+                  <button
+                    type="button"
+                    className={`platform-btn ${platform === 'windows' ? 'is-active' : ''}`}
+                    onClick={() => setPlatform('windows')}
+                    aria-pressed={platform === 'windows'}
+                  >
+                    <WindowsIcon size={14} />
+                    <span>{t.hero.windowsTab}</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`platform-btn ${platform === 'linux' ? 'is-active' : ''}`}
+                    onClick={() => setPlatform('linux')}
+                    aria-pressed={platform === 'linux'}
+                  >
+                    <TerminalIcon size={14} />
+                    <span>{t.hero.linuxTab}</span>
+                  </button>
+                </div>
               </div>
             </Reveal>
 
+            <Reveal delay={150}>
+              {platform === 'windows' ? (
+                <div className="hero-actions">
+                  <a href={winAsset.url} className="btn btn-primary btn-lg">
+                    <DownloadIcon size={18} />
+                    <span>{t.hero.downloadCta}</span>
+                  </a>
+                  <a
+                    href={REPO_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-secondary btn-lg"
+                  >
+                    <GitHubIcon size={18} />
+                    <span>{t.hero.githubCta}</span>
+                  </a>
+                </div>
+              ) : (
+                <>
+                  <div className="hero-actions">
+                    <a href={debAsset.url} className="btn btn-primary btn-lg">
+                      <DownloadIcon size={18} />
+                      <span>{t.hero.linuxDebCta}</span>
+                    </a>
+                    <a href={archAsset.url} className="btn btn-secondary btn-lg">
+                      <DownloadIcon size={18} />
+                      <span>{t.hero.linuxArchCta}</span>
+                    </a>
+                  </div>
+                  <div className="hero-sublinks">
+                    <a href="#linux-install" className="hero-sublink">
+                      <TerminalIcon size={13} />
+                      <span>{t.hero.linuxGuideLink}</span>
+                    </a>
+                    <span className="hero-meta-sep" aria-hidden="true">·</span>
+                    <a href={tarballAsset.url} className="hero-sublink">
+                      <DownloadIcon size={13} />
+                      <span>{t.hero.linuxTarballLink}</span>
+                    </a>
+                    <span className="hero-meta-sep" aria-hidden="true">·</span>
+                    <a
+                      href={REPO_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hero-sublink"
+                    >
+                      <GitHubIcon size={13} />
+                      <span>{t.hero.githubCta}</span>
+                    </a>
+                  </div>
+                </>
+              )}
+            </Reveal>
+
             <Reveal delay={190}>
-              <div className="hero-meta" aria-label="Release details">
-                <span className="hero-meta-strong">{release.version}</span>
-                <span className="hero-meta-sep" aria-hidden="true">·</span>
-                <span className="hero-meta-strong">{release.size}</span>
-                <span className="hero-meta-sep" aria-hidden="true">·</span>
-                <span>{t.hero.platformMeta}</span>
-                <span className="hero-meta-sep" aria-hidden="true">·</span>
-                <span>{t.hero.licenseMeta}</span>
-              </div>
+              {platform === 'windows' ? (
+                <div className="hero-meta" aria-label="Release details">
+                  <span>{t.hero.platformMeta}</span>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
+                  <span className="hero-meta-strong">{release.version}</span>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
+                  <span className="hero-meta-strong">{winAsset.size}</span>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
+                  <span>{t.hero.licenseMeta}</span>
+                </div>
+              ) : (
+                <div className="hero-meta" aria-label="Release details">
+                  <span>{t.hero.linuxPlatformMeta}</span>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
+                  <span className="hero-meta-strong">{release.version}</span>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
+                  <span>{t.hero.licenseMeta}</span>
+                </div>
+              )}
             </Reveal>
 
             <Reveal delay={240}>
@@ -587,6 +810,119 @@ export default function App() {
           </div>
         </section>
 
+        {/* Interactive Linux Installation Guide */}
+        <section className="section" id="linux-install">
+          <div className="container">
+            <Reveal>
+              <div className="section-header">
+                <span className="eyebrow">{t.linuxInstall.eyebrow}</span>
+                <h2 className="section-title">{t.linuxInstall.title}</h2>
+                <p className="section-subtitle">{t.linuxInstall.subtitle}</p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={70}>
+              <div className="glass-card linux-guide-card">
+                <div
+                  className="distro-tabs"
+                  role="tablist"
+                  aria-label={t.linuxInstall.tabsAria}
+                >
+                  {DISTRO_KEYS.map((key) => {
+                    const distro = t.linuxInstall.distros[key];
+                    const isSelected = activeDistro === key;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        role="tab"
+                        id={`tab-${key}`}
+                        aria-selected={isSelected}
+                        aria-controls={`panel-${key}`}
+                        className={`distro-tab ${isSelected ? 'is-active' : ''}`}
+                        onClick={() => setActiveDistro(key)}
+                      >
+                        <span className="distro-tab-name">{distro.tab}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div
+                  id={`panel-${activeDistro}`}
+                  role="tabpanel"
+                  aria-labelledby={`tab-${activeDistro}`}
+                  className="distro-panel"
+                >
+                  <div className="distro-header">
+                    <div className="distro-header-info">
+                      <div className="distro-title-row">
+                        <h3 className="distro-title">{currentDistro.title}</h3>
+                        <span className="distro-format-tag">{currentDistro.formatBadge}</span>
+                      </div>
+                      <p className="distro-subtitle">{currentDistro.subtitle}</p>
+                      <div className="distro-file-meta">
+                        <span className="distro-file-label">{t.linuxInstall.packageLabel}:</span>
+                        <code className="distro-file-name">{currentDistroAsset.name}</code>
+                        <span className="hero-meta-sep" aria-hidden="true">·</span>
+                        <span className="distro-file-size">{currentDistroAsset.size}</span>
+                        <span className="hero-meta-sep" aria-hidden="true">·</span>
+                        <span className="distro-file-size">{release.version}</span>
+                      </div>
+                    </div>
+
+                    <a
+                      href={currentDistroAsset.url}
+                      className="btn btn-primary distro-download-btn"
+                    >
+                      <DownloadIcon size={16} />
+                      <span>
+                        {t.linuxInstall.downloadBtn} {currentDistro.formatBadge}
+                      </span>
+                    </a>
+                  </div>
+
+                  <ol className="distro-steps">
+                    {currentDistro.steps.map((step) => {
+                      const cmdText = step.cmdKey ? commandMap[step.cmdKey] : null;
+                      const stepCopyId = `${activeDistro}-${step.num}`;
+                      const isCopied = copiedId === stepCopyId;
+
+                      return (
+                        <li key={step.num} className="distro-step">
+                          <div className="step-num distro-step-num">{step.num}</div>
+                          <div className="distro-step-body">
+                            <h4 className="distro-step-title">{step.title}</h4>
+                            <p className="distro-step-desc">{step.desc}</p>
+
+                            {cmdText && (
+                              <div className="cmd-block">
+                                <div className="cmd-scroll">
+                                  <span className="cmd-prompt" aria-hidden="true">$</span>
+                                  <code className="cmd-code">{cmdText}</code>
+                                </div>
+                                <button
+                                  type="button"
+                                  className={`copy-btn ${isCopied ? 'is-copied' : ''}`}
+                                  onClick={() => handleCopyCommand(stepCopyId, cmdText)}
+                                  aria-label={t.linuxInstall.copyAria}
+                                >
+                                  {isCopied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+                                  <span>{isCopied ? t.linuxInstall.copied : t.linuxInstall.copy}</span>
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         {/* Synchronized Lyrics & Visualizer Showcase */}
         <section className="section" id="lyrics">
           <div className="container">
@@ -741,32 +1077,53 @@ export default function App() {
                 <p className="cta-subtitle">{t.cta.subtitle}</p>
 
                 <div className="cta-actions">
-                  <a href={release.downloadUrl} className="btn btn-primary btn-lg">
-                    <DownloadIcon size={18} />
-                    <span>{t.cta.downloadCta}</span>
+                  <a href={winAsset.url} className="btn btn-primary btn-lg">
+                    <WindowsIcon size={16} />
+                    <span>{t.cta.windowsCta}</span>
                   </a>
+                  <a href={debAsset.url} className="btn btn-secondary btn-lg">
+                    <DownloadIcon size={17} />
+                    <span>{t.cta.debCta}</span>
+                  </a>
+                  <a href={archAsset.url} className="btn btn-secondary btn-lg">
+                    <DownloadIcon size={17} />
+                    <span>{t.cta.archCta}</span>
+                  </a>
+                </div>
+
+                <div className="cta-sublinks">
+                  <a href={tarballAsset.url} className="cta-meta-link">
+                    <DownloadIcon size={13} />
+                    <span>{t.cta.tarballLink}</span>
+                  </a>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
+                  <a href="#linux-install" className="cta-meta-link">
+                    <TerminalIcon size={13} />
+                    <span>{t.cta.linuxGuideLink}</span>
+                  </a>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
                   <a
                     href={REPO_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-secondary btn-lg"
+                    className="cta-meta-link"
                   >
-                    <GitHubIcon size={18} />
+                    <GitHubIcon size={13} />
                     <span>{t.cta.githubCta}</span>
                   </a>
+                  <span className="hero-meta-sep" aria-hidden="true">·</span>
+                  <a
+                    href={RELEASES_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cta-meta-link"
+                  >
+                    <span>
+                      {release.version} · {t.cta.releasesText}
+                    </span>
+                    <ArrowUpRightIcon />
+                  </a>
                 </div>
-
-                <a
-                  href={RELEASES_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="cta-meta-link"
-                >
-                  <span>
-                    {release.version} · {release.size} · {t.cta.releasesText}
-                  </span>
-                  <ArrowUpRightIcon />
-                </a>
               </div>
             </Reveal>
           </div>
@@ -788,6 +1145,7 @@ export default function App() {
           </div>
 
           <div className="footer-links">
+            <a href="#linux-install">{t.nav.linux}</a>
             <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
               {t.footer.repoLink}
             </a>

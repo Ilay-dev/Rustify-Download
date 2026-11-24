@@ -1,12 +1,13 @@
 export const translations = {
   en: {
     meta: {
-      title: 'Rustify — Native Rust Music Player for Windows by Ilay Schönknecht',
+      title: 'Rustify — Native Rust Music Player for Windows & Linux by Ilay Schönknecht',
     },
     nav: {
       features: 'Features',
       preview: 'Preview',
       install: 'Setup',
+      linux: 'Linux',
       specs: 'Specs',
       download: 'Download',
       switchLangAria: 'Switch language',
@@ -15,12 +16,19 @@ export const translations = {
       headlineTop: 'Pure Rust Speed.',
       headlineBottom: 'Liquid Glass Audio.',
       subtitle:
-        'A native, offline-first local music player for Windows. Built in pure Rust with AI DJ Automix, -14 LUFS loudness normalization, a 5-band real-time EQ, synced karaoke lyrics, and a dedicated FFT visualizer.',
-      downloadCta: 'Download Rustify',
+        'A native, offline-first local music player for Windows & Linux (Arch, Ubuntu, Mint). Built in pure Rust with AI DJ Automix, -14 LUFS loudness normalization, a 5-band real-time EQ, synced karaoke lyrics, and a dedicated FFT visualizer.',
+      platformSwitchAria: 'Select operating system',
+      windowsTab: 'Windows',
+      linuxTab: 'Linux',
+      downloadCta: 'Download for Windows',
       githubCta: 'GitHub',
+      linuxDebCta: 'Ubuntu / Mint (.deb)',
+      linuxArchCta: 'Arch Linux (.pkg.tar.zst)',
+      linuxGuideLink: 'Linux Install Guide',
+      linuxTarballLink: 'Universal .tar.gz',
       platformMeta: 'Windows 10/11 64-bit',
+      linuxPlatformMeta: 'Linux x86_64 · Arch / Ubuntu / Mint',
       licenseMeta: 'Free & Open Source · MIT',
-      installerNote: 'Direct GitHub Release · Rustify-Setup.exe',
       previewAlt: 'Rustify Desktop Music Player Main Interface',
       previewLabel: 'Rustify · Monochrome Liquid Glass UI',
       previewStatus: 'Native Engine',
@@ -43,8 +51,8 @@ export const translations = {
           tag: 'NATIVE ENGINE',
           title: 'Pure Rust & Liquid Glass UI',
           description:
-            'Instant startup, razor-sharp 60+ FPS rendering, and under 30 MB of RAM. Zero Electron, zero Chromium overhead — crafted with a calm monochrome obsidian glass aesthetic.',
-          highlights: ['< 30 MB RAM', 'Zero Electron', 'Instant Launch'],
+            'Instant startup, razor-sharp 60+ FPS rendering, and under 30 MB of RAM on Windows and Linux. Zero Electron, zero Chromium overhead — crafted with a calm monochrome obsidian glass aesthetic.',
+          highlights: ['< 30 MB RAM', 'Zero Electron', 'Windows & Linux'],
         },
         {
           id: 'lufs',
@@ -85,15 +93,15 @@ export const translations = {
           tag: 'DEDICATED FFT WINDOW',
           title: 'Built-in AudioVisualizer',
           description:
-            'Pop out a dedicated high-framerate FFT spectrum window for App Audio, Windows System Audio Loopback, or Microphone input.',
+            'Pop out a dedicated high-framerate FFT spectrum window for App Audio, System Audio Loopback (WASAPI / PipeWire), or Microphone input.',
         },
         {
           id: 'discord',
           span: 'normal',
           tag: 'SYSTEM INTEGRATION',
-          title: 'Discord Rich Presence & SMTC',
+          title: 'Discord RPC, SMTC & MPRIS',
           description:
-            'Broadcast your current track cleanly to Discord while controlling playback seamlessly via Windows hardware media keys.',
+            'Broadcast your current track cleanly to Discord while controlling playback seamlessly via Windows SMTC and Linux MPRIS media keys.',
         },
         {
           id: 'local',
@@ -101,8 +109,8 @@ export const translations = {
           tag: 'OFFLINE-FIRST PRIVACY',
           title: '100% Local & Private Library',
           description:
-            'Your music never leaves your drive. Full support for MP3, FLAC, WAV, OGG, and M4A with instant PC folder import, built-in Cover Manager, and a floating Mini-Widget.',
-          formats: ['MP3', 'FLAC', 'WAV', 'OGG', 'M4A', 'PC Folder Import', 'Cover Manager', 'Mini-Widget'],
+            'Your music never leaves your drive. Full support for MP3, FLAC, WAV, OGG, and M4A with instant folder import, built-in Cover Manager, and a floating Mini-Widget.',
+          formats: ['MP3', 'FLAC', 'WAV', 'OGG', 'M4A', 'Folder Import', 'Cover Manager', 'Mini-Widget'],
         },
       ],
     },
@@ -110,7 +118,7 @@ export const translations = {
       eyebrow: 'PREVIEW & QUICK START',
       title: 'Drop in your folder. Press play.',
       subtitle:
-        'No subscriptions, no library lock-in, no account walls. Rustify reads your existing Windows folders and structures tracks cleanly.',
+        'No subscriptions, no library lock-in, no account walls. Rustify reads your existing local music folders and structures tracks cleanly.',
       previewAlt: 'Rustify Local Folder Import Interface',
       previewTag: 'Local Folder Import',
       conventionLabel: 'Smart filename detection',
@@ -119,9 +127,9 @@ export const translations = {
       steps: [
         {
           num: '01',
-          title: 'Download & Run Installer',
+          title: 'Download & Install',
           description:
-            'Download Rustify-Setup.exe directly from GitHub Releases and install in seconds on Windows 10 or 11 (64-bit).',
+            'Run Rustify-Setup.exe on Windows 10/11 or install the native Linux package (.deb, .pkg.tar.zst, or .tar.gz) in seconds.',
         },
         {
           num: '02',
@@ -136,6 +144,111 @@ export const translations = {
             'Enable AI DJ Automix, dial in the 5-band EQ, follow synced lyrics, or open the standalone FFT AudioVisualizer.',
         },
       ],
+    },
+    linuxInstall: {
+      eyebrow: 'LINUX PACKAGES & SETUP',
+      title: 'Native Linux builds. Ready in seconds.',
+      subtitle:
+        'Official x86_64 packages with desktop launcher integration, PipeWire/PulseAudio audio, MPRIS media keys, and Wayland/X11 support.',
+      tabsAria: 'Select Linux distribution',
+      downloadBtn: 'Download',
+      copy: 'Copy',
+      copied: 'Copied!',
+      copyAria: 'Copy command to clipboard',
+      packageLabel: 'Package',
+      distros: {
+        arch: {
+          tab: 'Arch Linux',
+          title: 'Arch Linux',
+          subtitle: 'Arch / Manjaro / EndeavourOS / CachyOS',
+          formatBadge: '.pkg.tar.zst',
+          steps: [
+            {
+              num: '01',
+              title: 'Install package with pacman',
+              desc: 'Installs the native Rustify binary, desktop entry, and icons cleanly via pacman.',
+              cmdKey: 'archInstall',
+            },
+            {
+              num: '02',
+              title: 'System Audio Visualizer (optional)',
+              desc: 'Required only for desktop system audio loopback in the FFT Visualizer — already preinstalled on modern Arch/PipeWire setups.',
+              cmdKey: 'archPipewire',
+            },
+            {
+              num: '03',
+              title: 'Launch Rustify',
+              desc: 'Open Rustify from your application menu or launch it directly from the terminal.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+        ubuntu: {
+          tab: 'Ubuntu',
+          title: 'Ubuntu',
+          subtitle: '22.04 LTS / 24.04 LTS+',
+          formatBadge: '.deb',
+          steps: [
+            {
+              num: '01',
+              title: 'Install .deb package via apt',
+              desc: 'Automatically resolves and installs all required system dependencies.',
+              cmdKey: 'debInstall',
+            },
+            {
+              num: '02',
+              title: 'Launch Rustify',
+              desc: 'Start Rustify from the Application Launcher or run it from your terminal.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+        mint: {
+          tab: 'Linux Mint',
+          title: 'Linux Mint',
+          subtitle: '21.x / 22.x Cinnamon, MATE, XFCE',
+          formatBadge: '.deb',
+          steps: [
+            {
+              num: '01',
+              title: 'Easy (GUI)',
+              desc: 'Double-click the downloaded .deb file and click "Install Package" in GDebi — no terminal needed.',
+            },
+            {
+              num: '02',
+              title: 'Or install via Terminal',
+              desc: 'Prefer the command line? Install the package and resolve dependencies in one step:',
+              cmdKey: 'debInstall',
+            },
+            {
+              num: '03',
+              title: 'Launch Rustify',
+              desc: 'Open via Linux Mint Menu → Sound & Video → Rustify, or launch from the terminal.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+        tarball: {
+          tab: 'Universal (.tar.gz)',
+          title: 'Universal Linux',
+          subtitle: 'Fedora, openSUSE, Debian & any x86_64 distro',
+          formatBadge: '.tar.gz',
+          steps: [
+            {
+              num: '01',
+              title: 'Extract & run local installer (no root)',
+              desc: 'Installs cleanly into ~/.local/bin and adds a Rustify desktop entry to your App Menu without requiring sudo.',
+              cmdKey: 'tarballInstall',
+            },
+            {
+              num: '02',
+              title: 'Launch Rustify',
+              desc: 'Open Rustify from your application menu or run it directly in your terminal.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+      },
     },
     lyricsShowcase: {
       eyebrow: 'SYNCHRONIZED LYRICS & VISUALIZER',
@@ -162,11 +275,11 @@ export const translations = {
         { keys: '← / →', action: 'Seek or Skip Track' },
         { keys: '↑ / ↓', action: 'Adjust Volume' },
         { keys: 'M', action: 'Toggle Mute' },
-        { keys: 'Media Keys', action: 'Native Windows SMTC Control' },
+        { keys: 'Media Keys', action: 'Native Windows SMTC & Linux MPRIS' },
       ],
       techTitle: 'Technical Specifications',
       techItems: [
-        { label: 'Operating System', value: 'Windows 10 / 11 (64-bit)' },
+        { label: 'Operating System', value: 'Windows 10 / 11 & Linux (Arch, Ubuntu, Mint)' },
         { label: 'Architecture', value: '100% Pure Rust Native Binary' },
         { label: 'Audio Formats', value: 'MP3, FLAC, WAV, OGG, M4A' },
         { label: 'Loudness Target', value: '-14 LUFS (ITU-R BS.1770)' },
@@ -175,6 +288,10 @@ export const translations = {
       ],
       faqTitle: 'Quick Answers',
       faqs: [
+        {
+          q: 'How does Rustify work on Linux (Wayland, PipeWire, MPRIS, Discord)?',
+          a: 'Rustify runs natively on both Wayland and X11. Audio playback and the FFT System Audio Visualizer work seamlessly with PipeWire and PulseAudio, hardware media keys integrate via MPRIS (D-Bus), and Discord Rich Presence connects automatically to native Linux Discord installations.',
+        },
         {
           q: 'Why does Windows SmartScreen show a warning?',
           a: 'Rustify is a free, independent open-source project without a paid commercial code-signing certificate. Click "More info" → "Run anyway", or inspect and compile the full source code yourself on GitHub.',
@@ -197,9 +314,13 @@ export const translations = {
       badge: 'FREE & OPEN SOURCE',
       title: 'Ready to listen without limits?',
       subtitle:
-        'Download the official Windows installer straight from GitHub Releases — fast, private, and built in pure Rust.',
-      downloadCta: 'Download Rustify-Setup.exe',
-      githubCta: 'View on GitHub',
+        'Download the official Windows installer or native Linux packages straight from GitHub Releases — fast, private, and built in pure Rust.',
+      windowsCta: 'Windows (.exe)',
+      debCta: 'Ubuntu / Mint (.deb)',
+      archCta: 'Arch Linux (.pkg.tar.zst)',
+      tarballLink: 'Universal .tar.gz',
+      linuxGuideLink: 'Linux Guide',
+      githubCta: 'GitHub',
       releasesText: 'View all releases & changelog',
     },
     footer: {
@@ -213,12 +334,13 @@ export const translations = {
 
   de: {
     meta: {
-      title: 'Rustify — Nativer Rust-Musikplayer für Windows von Ilay Schönknecht',
+      title: 'Rustify — Nativer Rust-Musikplayer für Windows & Linux von Ilay Schönknecht',
     },
     nav: {
       features: 'Features',
       preview: 'Vorschau',
-      install: 'Installation',
+      install: 'Setup',
+      linux: 'Linux',
       specs: 'Details',
       download: 'Download',
       switchLangAria: 'Sprache wechseln',
@@ -227,12 +349,19 @@ export const translations = {
       headlineTop: 'Reine Rust-Power.',
       headlineBottom: 'Liquid-Glass-Audio.',
       subtitle:
-        'Ein nativer, lokaler Musikplayer für Windows — komplett in reinem Rust entwickelt. Mit AI DJ Automix, -14 LUFS Lautheitsnormalisierung, 5-Band-Echtzeit-EQ, synchronisierten Karaoke-Lyrics und eigenem FFT-Visualizer.',
-      downloadCta: 'Rustify herunterladen',
+        'Ein nativer, lokaler Musikplayer für Windows & Linux (Arch, Ubuntu, Mint) — komplett in reinem Rust entwickelt. Mit AI DJ Automix, -14 LUFS Lautheitsnormalisierung, 5-Band-Echtzeit-EQ, synchronisierten Karaoke-Lyrics und eigenem FFT-Visualizer.',
+      platformSwitchAria: 'Betriebssystem auswählen',
+      windowsTab: 'Windows',
+      linuxTab: 'Linux',
+      downloadCta: 'Für Windows herunterladen',
       githubCta: 'GitHub',
+      linuxDebCta: 'Ubuntu / Mint (.deb)',
+      linuxArchCta: 'Arch Linux (.pkg.tar.zst)',
+      linuxGuideLink: 'Linux Installationsanleitung',
+      linuxTarballLink: 'Universal .tar.gz',
       platformMeta: 'Windows 10/11 64-Bit',
+      linuxPlatformMeta: 'Linux x86_64 · Arch / Ubuntu / Mint',
       licenseMeta: 'Kostenlos & Open Source · MIT',
-      installerNote: 'Direkter GitHub-Release · Rustify-Setup.exe',
       previewAlt: 'Rustify Desktop-Musikplayer Hauptansicht',
       previewLabel: 'Rustify · Monochrome Liquid Glass UI',
       previewStatus: 'Native Engine',
@@ -255,8 +384,8 @@ export const translations = {
           tag: 'NATIVE ENGINE',
           title: 'Pure Rust & Liquid Glass UI',
           description:
-            'Sofortiger Start, flüssiges 60+ FPS Rendering und unter 30 MB RAM. Kein Electron, kein Chromium-Overhead — verpackt in einer ruhigen, monochromen Obsidian-Glass-Oberfläche.',
-          highlights: ['< 30 MB RAM', 'Kein Electron', 'Sofort startklar'],
+            'Sofortiger Start, flüssiges 60+ FPS Rendering und unter 30 MB RAM auf Windows und Linux. Kein Electron, kein Chromium-Overhead — verpackt in einer ruhigen, monochromen Obsidian-Glass-Oberfläche.',
+          highlights: ['< 30 MB RAM', 'Kein Electron', 'Windows & Linux'],
         },
         {
           id: 'lufs',
@@ -297,15 +426,15 @@ export const translations = {
           tag: 'EIGENES FFT-FENSTER',
           title: 'Integrierter AudioVisualizer',
           description:
-            'Eigenes, hochflüssiges FFT-Spektrumfenster für App-Audio, Windows-System-Audio-Loopback oder Mikrofoneingang.',
+            'Eigenes, hochflüssiges FFT-Spektrumfenster für App-Audio, System-Audio-Loopback (WASAPI / PipeWire) oder Mikrofoneingang.',
         },
         {
           id: 'discord',
           span: 'normal',
           tag: 'SYSTEMINTEGRATION',
-          title: 'Discord Rich Presence & SMTC',
+          title: 'Discord RPC, SMTC & MPRIS',
           description:
-            'Zeige deinen aktuellen Song sauber in Discord und steuere die Wiedergabe direkt über Windows-Medientasten.',
+            'Zeige deinen aktuellen Song sauber in Discord und steuere die Wiedergabe direkt über Windows-SMTC- und Linux-MPRIS-Medientasten.',
         },
         {
           id: 'local',
@@ -313,16 +442,16 @@ export const translations = {
           tag: '100% LOKAL & PRIVAT',
           title: 'Deine Bibliothek bleibt auf deinem PC',
           description:
-            'Keine Cloud, kein Tracking. Volle Unterstützung für MP3, FLAC, WAV, OGG und M4A mit schnellem PC-Ordner-Import, Cover Manager und schwebendem Mini-Widget.',
-          formats: ['MP3', 'FLAC', 'WAV', 'OGG', 'M4A', 'PC-Ordner-Import', 'Cover Manager', 'Mini-Widget'],
+            'Keine Cloud, kein Tracking. Volle Unterstützung für MP3, FLAC, WAV, OGG und M4A mit schnellem Ordner-Import, Cover Manager und schwebendem Mini-Widget.',
+          formats: ['MP3', 'FLAC', 'WAV', 'OGG', 'M4A', 'Ordner-Import', 'Cover Manager', 'Mini-Widget'],
         },
       ],
     },
     showcase: {
-      eyebrow: 'VORSCHAU & INSTALLATION',
+      eyebrow: 'VORSCHAU & SCHNELLSTART',
       title: 'Ordner wählen. Play drücken.',
       subtitle:
-        'Keine Abos, kein Account-Zwang, kein Import-Stress. Rustify liest deine vorhandenen Windows-Musikordner direkt ein.',
+        'Keine Abos, kein Account-Zwang, kein Import-Stress. Rustify liest deine vorhandenen lokalen Musikordner direkt ein.',
       previewAlt: 'Rustify Lokaler Ordner-Import Ansicht',
       previewTag: 'Lokaler Ordner-Import',
       conventionLabel: 'Smarte Dateinamen-Erkennung',
@@ -331,9 +460,9 @@ export const translations = {
       steps: [
         {
           num: '01',
-          title: 'Installer herunterladen & starten',
+          title: 'Herunterladen & installieren',
           description:
-            'Lade Rustify-Setup.exe direkt über GitHub Releases herunter und installiere Rustify in Sekunden auf Windows 10/11 (64-Bit).',
+            'Starte Rustify-Setup.exe unter Windows 10/11 oder installiere das native Linux-Paket (.deb, .pkg.tar.zst oder .tar.gz) in Sekunden.',
         },
         {
           num: '02',
@@ -348,6 +477,111 @@ export const translations = {
             'Aktiviere AI DJ Automix, stelle den 5-Band-EQ ein, nutze Live-Lyrics oder öffne das FFT-AudioVisualizer-Fenster.',
         },
       ],
+    },
+    linuxInstall: {
+      eyebrow: 'LINUX-PAKETE & INSTALLATION',
+      title: 'Native Linux-Builds. In Sekunden installiert.',
+      subtitle:
+        'Offizielle x86_64-Pakete mit App-Menü-Integration, PipeWire/PulseAudio, MPRIS-Medientasten und Wayland/X11-Support.',
+      tabsAria: 'Linux-Distribution auswählen',
+      downloadBtn: 'Herunterladen',
+      copy: 'Kopieren',
+      copied: 'Kopiert!',
+      copyAria: 'Befehl in die Zwischenablage kopieren',
+      packageLabel: 'Paket',
+      distros: {
+        arch: {
+          tab: 'Arch Linux',
+          title: 'Arch Linux',
+          subtitle: 'Arch / Manjaro / EndeavourOS / CachyOS',
+          formatBadge: '.pkg.tar.zst',
+          steps: [
+            {
+              num: '01',
+              title: 'Paket über pacman installieren',
+              desc: 'Installiert die native Rustify-Binary, den Desktop-Eintrag und Icons sauber über pacman.',
+              cmdKey: 'archInstall',
+            },
+            {
+              num: '02',
+              title: 'System-Audio-Visualizer (optional)',
+              desc: 'Nur für Desktop-System-Audio-Loopback im FFT-Visualizer nötig — auf modernen Arch/PipeWire-Systemen bereits vorinstalliert.',
+              cmdKey: 'archPipewire',
+            },
+            {
+              num: '03',
+              title: 'Rustify starten',
+              desc: 'Über das App-Menü („Rustify“) oder direkt im Terminal starten.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+        ubuntu: {
+          tab: 'Ubuntu',
+          title: 'Ubuntu',
+          subtitle: '22.04 LTS / 24.04 LTS+',
+          formatBadge: '.deb',
+          steps: [
+            {
+              num: '01',
+              title: '.deb-Paket über apt installieren',
+              desc: 'Löst automatisch alle benötigten Systemabhängigkeiten auf und installiert Rustify.',
+              cmdKey: 'debInstall',
+            },
+            {
+              num: '02',
+              title: 'Rustify starten',
+              desc: 'Über den Anwendungsstarter („Rustify“) oder direkt im Terminal öffnen.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+        mint: {
+          tab: 'Linux Mint',
+          title: 'Linux Mint',
+          subtitle: '21.x / 22.x Cinnamon, MATE, XFCE',
+          formatBadge: '.deb',
+          steps: [
+            {
+              num: '01',
+              title: 'Einfach (GUI)',
+              desc: 'Doppelklick auf die heruntergeladene .deb-Datei → „Paket installieren“ (GDebi) — ganz ohne Terminal.',
+            },
+            {
+              num: '02',
+              title: 'Alternativ im Terminal',
+              desc: 'Schnelle Installation inklusive automatischer Abhängigkeiten per Befehl:',
+              cmdKey: 'debInstall',
+            },
+            {
+              num: '03',
+              title: 'Rustify starten',
+              desc: 'Start über das Linux-Mint-Menü → Sound & Video → Rustify oder direkt per Terminal.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+        tarball: {
+          tab: 'Universal (.tar.gz)',
+          title: 'Universal Linux',
+          subtitle: 'Fedora, openSUSE, Debian & jede x86_64-Distro',
+          formatBadge: '.tar.gz',
+          steps: [
+            {
+              num: '01',
+              title: 'Entpacken & lokal installieren (ohne Root)',
+              desc: 'Installiert sauber nach ~/.local/bin inklusive App-Menü-Eintrag — ganz ohne sudo-Rechte.',
+              cmdKey: 'tarballInstall',
+            },
+            {
+              num: '02',
+              title: 'Rustify starten',
+              desc: 'Über das App-Menü („Rustify“) oder direkt per Terminal starten.',
+              cmdKey: 'launch',
+            },
+          ],
+        },
+      },
     },
     lyricsShowcase: {
       eyebrow: 'SYNCHRONISIERTE LYRICS & VISUALIZER',
@@ -374,11 +608,11 @@ export const translations = {
         { keys: '← / →', action: 'Spulen oder Titel wechseln' },
         { keys: '↑ / ↓', action: 'Lautstärke anpassen' },
         { keys: 'M', action: 'Stummschalten' },
-        { keys: 'Medientasten', action: 'Native Windows-SMTC-Steuerung' },
+        { keys: 'Medientasten', action: 'Native Windows-SMTC & Linux-MPRIS' },
       ],
       techTitle: 'Technische Daten',
       techItems: [
-        { label: 'Betriebssystem', value: 'Windows 10 / 11 (64-Bit)' },
+        { label: 'Betriebssystem', value: 'Windows 10 / 11 & Linux (Arch, Ubuntu, Mint)' },
         { label: 'Architektur', value: '100% Pure Rust Native Binary' },
         { label: 'Audioformate', value: 'MP3, FLAC, WAV, OGG, M4A' },
         { label: 'Lautheitsziel', value: '-14 LUFS (ITU-R BS.1770)' },
@@ -387,6 +621,10 @@ export const translations = {
       ],
       faqTitle: 'Häufige Fragen',
       faqs: [
+        {
+          q: 'Wie läuft Rustify unter Linux (Wayland, PipeWire, MPRIS, Discord)?',
+          a: 'Rustify läuft nativ unter Wayland und X11. Wiedergabe und der FFT-System-Audio-Visualizer funktionieren nahtlos mit PipeWire und PulseAudio, Hardware-Medientasten werden über MPRIS (D-Bus) unterstützt und Discord Rich Presence verbindet sich automatisch mit nativen Linux-Discord-Clients.',
+        },
         {
           q: 'Warum zeigt Windows SmartScreen eine Warnung an?',
           a: 'Rustify ist ein kostenloses Open-Source-Projekt ohne kostenpflichtiges kommerzielles Code-Signing-Zertifikat. Klicke auf „Weitere Informationen“ → „Trotzdem ausführen“ oder prüfe und baue den Quellcode direkt über GitHub.',
@@ -409,9 +647,13 @@ export const translations = {
       badge: 'KOSTENLOS & OPEN SOURCE',
       title: 'Bereit für lokalen Sound ohne Ballast?',
       subtitle:
-        'Lade den offiziellen Windows-Installer direkt über GitHub Releases herunter — schnell, privat und in reinem Rust.',
-      downloadCta: 'Rustify-Setup.exe herunterladen',
-      githubCta: 'Auf GitHub ansehen',
+        'Lade den offiziellen Windows-Installer oder native Linux-Pakete direkt über GitHub Releases herunter — schnell, privat und in reinem Rust.',
+      windowsCta: 'Windows (.exe)',
+      debCta: 'Ubuntu / Mint (.deb)',
+      archCta: 'Arch Linux (.pkg.tar.zst)',
+      tarballLink: 'Universal .tar.gz',
+      linuxGuideLink: 'Linux-Anleitung',
+      githubCta: 'GitHub',
       releasesText: 'Alle Releases & Changelog ansehen',
     },
     footer: {
