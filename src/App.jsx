@@ -31,6 +31,25 @@ const FALLBACK_ASSETS = {
   },
 };
 
+const EXT_RELEASE_API = 'https://api.github.com/repos/Ilay-dev/r-audio-pkg/releases/latest';
+const EXT_FALLBACK_ASSETS = {
+  windows: {
+    name: 'Rustify-Setup.exe',
+    url: 'https://github.com/Ilay-dev/r-audio-pkg/releases/latest/download/Rustify-Setup.exe',
+    size: '~14 MB',
+  },
+  mint: {
+    name: 'rustify-private_1.4.0_amd64.deb',
+    url: 'https://github.com/Ilay-dev/r-audio-pkg/releases/latest/download/rustify-private_1.4.0_amd64.deb',
+    size: '~15 MB',
+  },
+  arch: {
+    name: 'rustify-1.4.0-1-x86_64.pkg.tar.zst',
+    url: 'https://github.com/Ilay-dev/r-audio-pkg/releases/latest/download/rustify-1.4.0-1-x86_64.pkg.tar.zst',
+    size: '~17 MB',
+  },
+};
+
 const DISTRO_KEYS = ['arch', 'ubuntu', 'mint', 'tarball'];
 
 const BASE = import.meta.env.BASE_URL;
@@ -325,6 +344,13 @@ export default function App() {
     version: DEFAULT_VERSION,
     assets: FALLBACK_ASSETS,
   });
+  const [extOpen, setExtOpen] = useState(false);
+  const [extRelease, setExtRelease] = useState({
+    version: DEFAULT_VERSION,
+    assets: EXT_FALLBACK_ASSETS,
+  });
+  const extLoadedRef = useRef(false);
+  const keyBufRef = useRef('');
   const [openFaq, setOpenFaq] = useState(0);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
@@ -340,6 +366,78 @@ export default function App() {
       if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current);
     };
   }, []);
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape' && extOpen) {
+        setExtOpen(false);
+        return;
+      }
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const tag = e.target && e.target.tagName ? e.target.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || (e.target && e.target.isContentEditable)) {
+        return;
+      }
+      if (typeof e.key === 'string' && e.key.length === 1) {
+        const next = (keyBufRef.current + e.key.toLowerCase()).slice(-4);
+        keyBufRef.current = next;
+        if (next === 'alle') {
+          keyBufRef.current = '';
+          setExtOpen(true);
+        }
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [extOpen]);
+
+  useEffect(() => {
+    if (!extOpen || extLoadedRef.current) return;
+    extLoadedRef.current = true;
+    const controller = new AbortController();
+
+    async function fetchExtRelease() {
+      try {
+        const res = await fetch(EXT_RELEASE_API, {
+          signal: controller.signal,
+          headers: { Accept: 'application/vnd.github+json' },
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        const tag =
+          typeof data.tag_name === 'string' && data.tag_name.trim()
+            ? data.tag_name.trim()
+            : DEFAULT_VERSION;
+        const assets = Array.isArray(data.assets) ? data.assets : [];
+
+        const winAsset =
+          assets.find(
+            (a) => a && typeof a.name === 'string' && a.name.toLowerCase() === 'rustify-setup.exe'
+          ) ||
+          assets.find((a) => a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.exe'));
+        const mintAsset = assets.find(
+          (a) => a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.deb')
+        );
+        const archAsset = assets.find(
+          (a) => a && typeof a.name === 'string' && a.name.toLowerCase().endsWith('.pkg.tar.zst')
+        );
+
+        setExtRelease({
+          version: tag,
+          assets: {
+            windows: resolveAsset(winAsset, EXT_FALLBACK_ASSETS.windows),
+            mint: resolveAsset(mintAsset, EXT_FALLBACK_ASSETS.mint),
+            arch: resolveAsset(archAsset, EXT_FALLBACK_ASSETS.arch),
+          },
+        });
+      } catch {
+        // Keep graceful fallback
+      }
+    }
+
+    fetchExtRelease();
+    return () => controller.abort();
+  }, [extOpen]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -1158,6 +1256,118 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {extOpen && (
+        <div
+          className="ext-overlay"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Rustify Full Edition Downloads"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setExtOpen(false);
+          }}
+        >
+          <div className="glass-card ext-modal">
+            <div className="ext-modal-header">
+              <div>
+                <h2 className="ext-modal-title">
+                  {lang === 'de' ? 'Rustify — Vollversion' : 'Rustify — Full Edition'}
+                </h2>
+                <p className="ext-modal-subtitle">
+                  {lang === 'de'
+                    ? `${extRelease.version} · Windows, Linux Mint & Arch Linux (inkl. YouTube, Spotify & Amazon Sync)`
+                    : `${extRelease.version} · Windows, Linux Mint & Arch Linux (incl. YouTube, Spotify & Amazon Sync)`}
+                </p>
+              </div>
+              <button
+                type="button"
+                className="ext-close-btn"
+                onClick={() => setExtOpen(false)}
+                aria-label={lang === 'de' ? 'Schließen' : 'Close'}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="ext-grid">
+              {/* Windows */}
+              <div className="ext-card">
+                <div className="ext-card-top">
+                  <div className="ext-card-name">
+                    <WindowsIcon size={16} />
+                    <span>Windows 10 / 11</span>
+                  </div>
+                  <span className="ext-card-meta">{extRelease.assets.windows.size}</span>
+                </div>
+                <p className="ext-card-file">{extRelease.assets.windows.name}</p>
+                <a href={extRelease.assets.windows.url} className="btn btn-primary btn-sm ext-dl-btn">
+                  <DownloadIcon size={14} />
+                  <span>{lang === 'de' ? 'Windows Setup (.exe)' : 'Windows Installer (.exe)'}</span>
+                </a>
+              </div>
+
+              {/* Linux Mint */}
+              <div className="ext-card">
+                <div className="ext-card-top">
+                  <div className="ext-card-name">
+                    <LinuxIcon size={16} />
+                    <span>Linux Mint (21 / 22)</span>
+                  </div>
+                  <span className="ext-card-meta">{extRelease.assets.mint.size}</span>
+                </div>
+                <p className="ext-card-file">{extRelease.assets.mint.name}</p>
+                <a href={extRelease.assets.mint.url} className="btn btn-primary btn-sm ext-dl-btn">
+                  <DownloadIcon size={14} />
+                  <span>{lang === 'de' ? 'Mint Paket (.deb)' : 'Mint Package (.deb)'}</span>
+                </a>
+                <div className="cmd-block ext-cmd">
+                  <code className="cmd-code">{`sudo apt update && sudo apt install ./${extRelease.assets.mint.name}`}</code>
+                  <button
+                    type="button"
+                    className={`copy-btn ${copiedId === 'ext-mint' ? 'is-copied' : ''}`}
+                    onClick={() =>
+                      handleCopyCommand(
+                        'ext-mint',
+                        `sudo apt update && sudo apt install ./${extRelease.assets.mint.name}`
+                      )
+                    }
+                  >
+                    {copiedId === 'ext-mint' ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Arch Linux */}
+              <div className="ext-card">
+                <div className="ext-card-top">
+                  <div className="ext-card-name">
+                    <LinuxIcon size={16} />
+                    <span>Arch Linux</span>
+                  </div>
+                  <span className="ext-card-meta">{extRelease.assets.arch.size}</span>
+                </div>
+                <p className="ext-card-file">{extRelease.assets.arch.name}</p>
+                <a href={extRelease.assets.arch.url} className="btn btn-primary btn-sm ext-dl-btn">
+                  <DownloadIcon size={14} />
+                  <span>{lang === 'de' ? 'Arch Paket (.pkg.tar.zst)' : 'Arch Package (.pkg.tar.zst)'}</span>
+                </a>
+                <div className="cmd-block ext-cmd">
+                  <code className="cmd-code">{`sudo pacman -U ${extRelease.assets.arch.name}`}</code>
+                  <button
+                    type="button"
+                    className={`copy-btn ${copiedId === 'ext-arch' ? 'is-copied' : ''}`}
+                    onClick={() =>
+                      handleCopyCommand('ext-arch', `sudo pacman -U ${extRelease.assets.arch.name}`)
+                    }
+                  >
+                    {copiedId === 'ext-arch' ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
